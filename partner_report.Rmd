@@ -1,0 +1,597 @@
+---
+params: 
+  partner: NA
+  start_date: NA
+  end_date: NA
+  form_1: NA
+  form_2: NA
+  form_3: NA
+  indicator_table: NA
+  form_2_likert: NA
+  form_2_vgood: NA
+  future_date: NA
+  value_boxes: NA
+  plots: NA
+  
+  set_title:  "Automated Report on Monitoring and Evaluation Report "
+  text_plots_en: TRUE
+title: "`r paste0(params$set_title, '; ', 'Implementing partner: ', paste0(if(length(params$partner) == 4){'All partners'}else{if(length(params$partner) == 3){paste0(params$partner[1],', ', params$partner[2],' & ', params$partner[3])}else{if(length(params$partner) == 2){paste0(params$partner[1],' & ', params$partner[2])}else{if(length(params$partner) == 1){paste0(params$partner[1])}else{'All partners'}}}}),'; ', 'Duration: from ', params$start_date %>% format('%d/%m/%y'), ' to ', params$end_date %>% format('%d/%m/%y'))`"
+subtitle: "Project ABC"
+author: "Supervisor: Usman Ahmed - uak2604@gmail.com"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+#output: html_document
+#toc: yes
+
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3  
+    number_sections: true  # number sections at each table header
+    fig.align: 'center'
+    dpi: 72 
+    
+---
+
+<br>
+
+```{r image_logo, echo=FALSE, out.width = '20%'}
+
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/800px-Flag_of_Europe.svg.png")
+
+```
+
+
+
+```{r license, echo=FALSE}
+
+
+
+```
+
+```{r starttime, echo=FALSE}
+# Registers the time before running the code chunks below
+# This will be used to compute elapsed time for future reference
+start_time <- Sys.time()
+```
+
+
+```{r filter_params, echo = FALSE}
+# Sets filter parameters for report, please change the parameters below
+
+# Set partner
+partner <- params$partner
+
+# Dates 
+start_date  <-  params$start_date # Date of start of the report
+end_date <-  params$end_date # End date of the report (defaut: today). Please change if applicable (e.g. "2018-08-30")
+
+form_1  <-  params$form_1
+form_2  <-  params$form_2
+form_3  <-  params$form_3
+
+indicator_table  <-  params$indicator_table
+form_2_likert  <-  params$form_2_likert
+form_2_vgood  <-  params$form_2_vgood
+
+future_date  <-  params$future_date
+
+value_boxes <- params$value_boxes
+
+plots <- params$plots
+
+
+latest_submission <-   max(
+  max(lubridate::ymd(form_1$filter_date)),
+  max(lubridate::ymd(form_2$filter_date)),
+  max(lubridate::ymd(form_3$filter_date))
+) %>%
+  as.Date()
+
+
+# Loads local data files ----
+
+#source("scripts/loads_local.R")
+
+```
+
+
+```{r setup_hooks, include = FALSE}
+# General options for code chuncks
+knitr::opts_chunk$set(echo = FALSE, 
+                      comment = "",
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.width = 6.5, 
+                      fig.height=2.8,
+                      out.height=300, 
+                      out.width=800,
+                      fig.align = 'center'
+)
+
+# Formatting of thousand and decimal separators
+knitr::knit_hooks$set(inline = function(x) {
+  prettyNum(x, decimal.mark = ".", big.mark=",")
+})
+
+``` 
+
+
+```{r indicaor_values}
+
+for(i in 1:nrow(indicator_table)){
+  
+  assign(indicator_table$indicator[i], indicator_table$value[i])
+  
+}
+``` 
+
+
+<br>
+
+# Introduction
+
+This is an auto-generated report for the Monitoring, Evaluation and Learning (MEAL) dashboard of the project "Project ABC: Empowering Local Actors to promote peacebuilding, Human Rights, democracy, and religious tolerance, implemented by Partner A, Partner B, and Partner C. The M&E system is required by the  EU guidelines.
+
+It answers the need to develop and implement a monitoring and evaluation system and processes and strengthen the capacities of staff in technical, organisational, and operational implementation strategies based on EU INTPA rules and requirements.
+
+This MEAL system aims to fulfil the following objectives. 
+- Data Standardization: Ensuring unambiguous and consistent data collection, analysis, and reporting protocols to affirm the integrity and reliability of the project.
+- Capacity Enhancement: Elevating staff competency through the implementation of best practices and the streamlining of project management processes.
+- Sustaining Continuous Learning: Advocating for a culture of data-driven decision-making, which facilitates knowledge sharing and adaptive strategies.
+
+
+This report is systematically organised into four sections, as configured on the MEAL online platform.
+
+1. General information of the project: value boxes.
+2. Project indicators result: deploying current status. Outcome indicators and Output indicators. 
+3. Online survey evaluation results, which are constantly updated until the end of the project. 
+4. Financial register of logged expenditures.
+
+This report is generated using the **filtered data** based on selected partners, and the selected time interval in the dashboard sidebar panel. This report is generated for the time interval of `r params$start_date %>% format('%d/%m/%y')` and `r params$end_date %>% format('%d/%m/%y')` , taking into account that the last update of the MEAL system is the `r format(Sys.Date(), format="%d/%m/%y")`, and the most recent registration within selected time interval is made on `r latest_submission %>% format('%d/%m/%y')`. 
+
+# About the project:
+
+Following are the key values of the MEAL system, comprising number of registrations, beneficiaries and women participants including forecast of beneficiaries at selected future date.
+
+- Registrations (F1 Output): `r value_boxes[["f1_registrations_vbox"]]`
+- Registrations (F2 Feedback): `r value_boxes[["f2_registrations_vbox"]]`
+- Registrations (F3 Financial): `r value_boxes[["f3_registrations_vbox"]]`
+- Unique beneficiaries (F1 Output): `r value_boxes[["f1_participants_vbox"]]`
+- Women (F1 Output): `r value_boxes[["f1_women_vbox"]]`
+- `r paste0("Forecast of beneficiaries on ", lubridate::ymd(future_date) %>% format("%d/%m/%y", big.mark = ""))`: `r value_boxes[["value_forecast_f1_benef"]]`
+
+<br>
+
+```{r valueboxes, fig.width = 8, fig.height=3.5}
+
+library(ggplot2)
+library(emojifont)
+
+df <- data.frame(
+  x = rep(seq(2, 15, 6.5), 2),
+  y = c(rep(6.5, 3), rep(2,3)),
+  h = rep(4.25, 6),
+  w = rep(6.25, 6),
+  value = c( 
+    value_boxes[["f1_registrations_vbox"]],
+    value_boxes[["f2_registrations_vbox"]],
+    value_boxes[["f3_registrations_vbox"]],
+    value_boxes[["f1_participants_vbox"]],
+    value_boxes[["f1_women_vbox"]],
+    value_boxes[["value_forecast_f1_benef"]]
+  ),
+  
+  info = c("Registrations (F1 Output)",
+           "Registrations (F2 Feedback)",
+           "Registrations (F3 Financial)",
+           "Beneficiaries (F1 Output)",
+           "Women (F1 Output)",
+           
+           paste0("Forecast on ", 
+                  lubridate::ymd(future_date) %>% 
+                    format("%d/%m/%Y"))),
+  
+  icon = c(
+    fontawesome(search_fontawesome("address-card")[1]),
+    fontawesome(search_fontawesome("address-card")[1]),
+    fontawesome(search_fontawesome("address-card")[1]),
+    fontawesome(search_fontawesome("group")[1]),
+    fontawesome(search_fontawesome("female")[1]),
+    fontawesome(search_fontawesome("chart")[1])
+  ),
+  
+  font_family = c(rep("fontawesome-webfont", 6)),
+  
+  # color = factor(c(
+  #   "green1",
+  #   "blue1",
+  #   "green1",
+  #   "lightblue",
+  #   "fuchsia",
+  #   "lightblue"
+  # )
+  # )
+  
+  color = factor(c(
+    "green1",
+    "blue1",
+    "green1",
+    "lightblue",
+    "fuchsia",
+    "lightblue"
+  )
+  )
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+  ## Create the tiles using the `color` column
+  geom_tile(aes(fill = color)) +
+  ## Add the numeric values as text in `value` column
+  geom_text(color = "white", fontface = "bold", size = 15,
+            aes(label = value, x = x - 2.9, y = y + 1), hjust = 0) +
+  ## Add the labels for each box stored in the `info` column
+  geom_text(color = "white", fontface = "bold", size = 8,
+            aes(label = info, x = x - 2.9, y = y - 1), hjust = 0) +
+  coord_fixed() +
+  scale_fill_brewer(type = "qual",palette = "Dark2") +
+  ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+  geom_text(size = 20, aes(label = icon, family = font_family,
+                           x = x + 1.5, y = y + 0.5), alpha = 0.25) +
+  theme_void() +
+  guides(fill = FALSE)
+
+```
+
+<br>
+
+## Outputs from activities
+
+The interviews are taken in the state of `r toplabel("internal_state", form_1, lowercase = F,, form_path = NA, reorder_label = F)`. The LGS can be ranked as follows `r toplabel("internal_lga", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. Project result to which the task being reported is related to `r toplabel("internal_result", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. The type of participants / public in the assessment are `r toplabel("internal_participant", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`.
+
+```{r topbarplot_form_1_internal_state}
+
+
+
+plots[["f1_state"]] %>% print()
+
+
+
+```
+
+```{r topbarplot_form_1_internal_lga}
+
+# for (i in 1:length(plots)) {
+#   
+#   plots[[i]] %>% print()
+#   
+# }
+
+plots[["f1_lga"]] %>% print()
+
+```
+
+
+<br>
+
+```{r topbarplot_form_1_internal_result}
+
+
+topbarplot(
+  form_1$internal_result,
+  max.obs = 10,
+  title = "Project result to which the task being reported is related:") +
+  theme(axis.title.x = element_blank())
+
+```
+
+<br>
+
+```{r topbarplot_form_1_internal_participant}
+
+multibarplot(
+  df = form_1, 
+  variable = "internal_participant",
+  title = "Type of participants / public:", 
+  brewerpal = "RdYlGn",
+  direction = -1
+)
+
+```
+
+
+## Feedback from beneficiaries
+
+The feedbacks are taken in the state of `r toplabel("internal_state", form_2, lowercase = F,, form_path = NA, reorder_label = F)`. The LGS can be ranked as follows `r toplabel("internal_lga", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. Project result to which the task being reported is related to `r toplabel("internal_result", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. The type of participants / public in the assessment are `r toplabel("internal_participant", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`.
+
+<br>
+
+```{r topbarplot_form_2_internal_state}
+
+# Plot registrations
+topbarplot(
+  form_2$internal_state,
+  max.obs = 10,
+  title = "State where this task is being implemented:") +
+  theme(axis.title.x = element_blank()
+  )
+
+```
+
+<br>
+
+```{r topbarplot_form_2_internal_lga}
+
+# Plot registrations
+topbarplot(
+  form_2$internal_lga,
+  max.obs = 10,
+  title = "LGA (local-government area) where this task is being implemented:") +
+  theme(axis.title.x = element_blank())
+
+```
+
+
+<br>
+
+```{r topbarplot_form_2_internal_result}
+
+# Plot registrations
+topbarplot(
+  form_2$internal_result,
+  max.obs = 10,
+  title = "Project result to which the task being reported is related:") +
+  theme(axis.title.x = element_blank())
+
+```
+
+
+<br>
+
+```{r topbarplot_form_2_internal_participant}
+
+multibarplot(
+  df = form_2, 
+  variable = "internal_participant",
+  title = "Type of participants / public:", 
+  brewerpal = "RdYlGn",
+  direction = -1
+)
+
+```
+
+<br>
+
+```{r evalplot_form_2_likert}
+
+sjPlot::plot_likert(form_2_likert[1:8], 
+                    #title = "Participants feedback", 
+                    legend.title = "",
+                    reverse.colors = TRUE, 
+                    values = "sum.outside", 
+                    show.prc.sign = TRUE,
+                    geom.size = 0.5, 
+                    reverse.scale = TRUE,
+                    geom.colors = "RdYlGn",
+                    show.n = TRUE,
+                    # limit the likert count evenly
+                    catcount = 6,
+                    intercept.line.color = "blue",
+                    wrap.labels = 60,
+                    # limits of the x-axis-range
+                    grid.range = c(1.4, 1.09),
+                    expand.grid = TRUE,
+                    # breaks down the interval of the x-axis percentages
+                    grid.breaks = 0.2,
+                    cat.neutral = 4,
+                    digits =0
+) + 
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 11))
+
+```
+
+
+<br>
+
+```{r evalplot_form_2_likert-rest, out.height=350}
+
+sjPlot::plot_likert(form_2_likert[9:16], 
+                    #title = "Participants feedback", 
+                    legend.title = "",
+                    reverse.colors = TRUE, 
+                    values = "sum.outside", 
+                    show.prc.sign = TRUE,
+                    geom.size = 0.5, 
+                    reverse.scale = TRUE,
+                    geom.colors = "RdYlGn",
+                    show.n = TRUE,
+                    # limit the likert count evenly
+                    catcount = 6,
+                    intercept.line.color = "blue",
+                    wrap.labels = 70,
+                    # limits of the x-axis-range
+                    grid.range = c(1.4, 1.09),
+                    expand.grid = TRUE,
+                    # breaks down the interval of the x-axis percentages
+                    grid.breaks = 0.2,
+                    cat.neutral = 4,
+                    digits =0
+) + 
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 11))
+
+```
+
+
+<br>
+
+```{r evalplot_form_2_vgood}
+
+sjPlot::plot_likert(form_2_vgood, 
+                    #title = "Participants feedback", 
+                    legend.title = "",
+                    reverse.colors = TRUE, 
+                    values = "sum.outside", 
+                    show.prc.sign = TRUE,
+                    geom.size = 0.5, 
+                    reverse.scale = TRUE,
+                    geom.colors = "RdYlGn",
+                    show.n = TRUE,
+                    # limit the likert count evenly
+                    catcount = 4,
+                    intercept.line.color = "blue",
+                    wrap.labels = 60,
+                    # limits of the x-axis-range
+                    grid.range = c(1.4, 1.09),
+                    expand.grid = TRUE,
+                    # breaks down the interval of the x-axis percentages
+                    grid.breaks = 0.2,
+                    cat.neutral = 3,
+                    digits =0
+) + 
+  theme_minimal() +
+  theme(axis.text.y = element_text(size = 11))
+
+```
+
+
+
+## Expenditures
+
+For the question "Is this an activity-specific expenditure?" the partners answered `r toplabel("expend_activity_specific", form_3, lowercase = F,, form_path = NA, reorder_label = F)`. The category(ies) to which the expenses belong to are `r toplabel("expend_category", form_3, lowercase = F,, form_path = NA, reorder_label = F)`. The method of payments are `r toplabel("expend_payment", form_3, lowercase = F,, form_path = NA, reorder_label = F)`.
+
+<br>
+
+```{r topbarplot_form_3_implementing_partner}
+
+# Plot registrations
+topbarplot(
+  form_3$internal_implementing_partner,
+  max.obs = 10,
+  title = "Implementing partner:") +
+  theme(axis.title.x = element_blank())
+
+```
+<br>
+
+```{r topbarplot_form_3_activity_specific}
+
+# Plot registrations
+topbarplot(
+  form_3$expend_activity_specific,
+  max.obs = 10,
+  title = "Is this an activity-specific expenditure?") +
+  theme(axis.title.x = element_blank())
+
+```
+
+
+<br>
+
+```{r topbarplot_form_3_expend_category}
+
+# Plot registrations
+topbarplot(
+  form_3$expend_category,
+  max.obs = 10,
+  title = "Which cost category does the expense belong to?") +
+  theme(axis.title.x = element_blank())
+
+```
+
+<br>
+
+```{r topbarplot_form_3_expend_payment}
+
+# Plot
+topbarplot(
+  form_3$expend_payment,
+  max.obs = 10,
+  title = "How was the payment made?") +
+  theme(axis.title.x = element_blank())
+
+
+```
+
+<br>
+
+```{r topbarplot_form_3_budget}
+
+plots[["f3_budget"]] %>% print()
+
+```
+
+
+# Annex
+## Indicators from the logical framework
+
+The calculation of indicators includes data from 
+
+- Form 1 - Output form for logging activities and outputs continuously, 
+- Form 2 - Feedback form to track quality and beneficiary suggestions continuously
+- Form 3 - Financial register for logging expenditures continuously
+
+We have calculated the indicators using the **filtered data** based on selected partners, and the selected time interval in the dashboard sidebar panel. The target values represent overall project.
+
+### Specific Objective: 
+
+Strengthened community-based groups, CSOs, CBOs, religious leaders, faith-based organisations, and government institutions promote peace, religious tolerance, respect for human rights, and improved livelihoods, with a focus on women and youths in 12 communities in six local government areas of State A and State B.
+
+**Indicator SO1 - Number of people directly benefiting from EU-supported interventions that specifically aim to support civilian post-conflict peace building and/or conflict prevention.**
+
+- Source as from the approved proposal: Activity plans, activity reports, publications, M&E reports, and final
+evaluation.
+
+- Target value as from approved proposal (Overall programme): 4140 people
+
+- Indicator value as from approved proposal: 0 (start)
+
+- Indicator value as from the updated assessment: `r indSO1_value` people
+
+
+**Indicator SO2 - Policy implementation and monitoring initiatives with CSO and CBOs supported by the action**
+
+- Source as from the approved proposal: Activity plans, activity reports, publications, M&E reports, and final evaluation.
+
+- Target value as from approved proposal (Overall programme): 16 people
+
+- Indicator value as from approved proposal: 0 (start)
+
+- Indicator value as from the updated assessment: `r indSO2_value`
+
+
+
+**Indicator SO3 - Number of community-based groups, CSOs, and CBOs supported by the action represented in State A and State B**
+
+- Source as from the approved proposal: Baseline assessment report, membership documents, M&E reports, and final evaluation.
+
+- Target value as from approved proposal (Overall programme): 30
+
+- Indicator value as from the updated assessment: `r indSO3_value`
+
+
+**Indicator SO4 - % of participants in surveys with a positive opinion about community-based groups, CBOs, and CSOs’ managerial, organisational, and technical capacities and credibility in the target communities.**
+
+- Source as from the approved proposal: Baseline assessment report, M&E surveys, and final evaluation.
+
+- Target value as from approved proposal (Overall programme): 80%
+
+- Indicator value as from the updated assessment: `r indSO4_value`%
+
+
+
+```{r tmtime, echo=FALSE, warning=FALSE, message=FALSE}
+# Saving time elapsed to process tm_map 
+# (type tm to know how long it took to run the code chunk above)
+tmtime <- Sys.time() - start_time
+```
+
+<br>
+
+<br>
+
+**Time taken to generate this report**: `r tmtime %>% format(decimal.mark=".")`.
+
+<br>
+
+<br>

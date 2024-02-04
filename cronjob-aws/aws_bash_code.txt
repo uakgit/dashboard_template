@@ -1,0 +1,24 @@
+# R files upload
+scp -i file_name.pem *.R ubuntu@ec2-54-93-40-220.eu-central-1.compute.amazonaws.com:~/folder1/folder2/
+
+# ZIP file upload
+scp -i file_name.pem *.R ubuntu@ec2-35-157-240-83.eu-central-1.compute.amazonaws.com:~/folder1/folder2/
+
+# Create a crontab    
+crontab -e
+
+# Cronjob to download data from Kobo (Project ABC) 
+## The server time is GMT (one hour behind CET)
+10 13,15,23 * * * sudo R CMD BATCH cronjob-ProjectABC/update_mongodb.R
+
+# Check processes 
+dmesg
+
+# Kill session
+sudo pkill -u ec2-user
+
+
+
+
+
+
