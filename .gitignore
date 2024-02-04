@@ -48,3 +48,5 @@ vignettes/*.pdf
 #*credentials.R
 
 # raw_data/
+
+rsconnect/
