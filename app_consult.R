@@ -20,7 +20,7 @@ if(development_only == FALSE){
          encoding = "UTF-8")
   
 }else{
-  source('scripts/install_packages.R',
+  source('scripts/packages.R',
          encoding = "UTF-8")
 }
 
@@ -215,7 +215,15 @@ ui <- fluidPage(
   ),
   
   helpText(h5(id="htext", 
-              "INSTRUCTIONS: Consult the registration data of a person benefiting from the Project ABC. For security and data protection, to view images you must first log into your program account at https://kobo.humanitarianresponse.info with your program credentials. Images can be enlarged by clicking on them. If you do not have the credentials to authenticate, contact the person responsible for the program in your organization. We suggest not printing to obtain more efficiency from the program and because it is much more environmentally friendly. The registration form is available in the ODK Collect Android app (configured with program credentials) on", a("KoboToolBox", target = "_blank", href = "https://eu.kobotoolbox.org/#/projects/home"), 
+              paste("INSTRUCTIONS: This is the consultation template app that uses arbitary registration data of a people benefiting from the Project ABC.",
+                    "For security and data protection, to view images you must first log into your project account database, such as at",
+                    "https://kobo.humanitarianresponse.info with your program credentials.",
+                    "Images can be enlarged by clicking on them.",
+                    "We suggest not printing to obtain more efficiency from the program and because",
+                    "it is much more environmentally friendly. The registration form used in survey can be hosted in the ODK Collect",
+                    "Android app (configured with program credentials) on",
+                    sep = " "),
+                    a("KoboToolBox", target = "_blank", href = "https://eu.kobotoolbox.org/#/projects/home"), 
               "If you have any questions, comments or suggestions, please send an email to", 
               a("USMAN AHMED", target = "_blank",
                 href="https://www.linkedin.com/in/usman-ahmed-87853289/"), 
@@ -250,7 +258,7 @@ ui <- fluidPage(
       # Search button
       actionButton("go", 
                    "Search", 
-                   icon = icon("Search"),
+                   icon = icon("magnifying-glass"),
                    width = "50%"
       ),
       

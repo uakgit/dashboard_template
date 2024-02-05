@@ -2143,6 +2143,8 @@ server <- function(input, output) {
       
     ) %>% 
     
+    select(-expend_currency,
+           -expend_amount) %>% 
     # Sorts data by date
     arrange(desc(filter_date))  
   
