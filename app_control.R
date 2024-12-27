@@ -90,7 +90,7 @@ source("scripts/clean_data.R",
        encoding = "UTF-8")
 
 
-# CSS for DT tables ----
+# CSS for DT tables used in dashboardBody ----
 
 css <- HTML(
   ".dataTables_scrollBody {
