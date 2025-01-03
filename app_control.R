@@ -288,7 +288,7 @@ ui <- dashboardPage(
         label = "Forecast date:", 
         value = paste0(today() %>% year() + 1, "-12-31"), 
         min = paste0(today() %>% year(), "-", today() %>% month() + 1, "-", today() %>% day()), 
-        max = "2025-12-31",
+        max = "2026-12-31",
         format = "dd/mm/yyyy", 
         startview = "month", 
         weekstart = 0,
