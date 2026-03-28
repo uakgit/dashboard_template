@@ -30,7 +30,6 @@ source('scripts/custom_functions.R',
 
 
 
-
 # ##################### Sources kobo data when deploying the app
 
 # # # Saves and Loads RDA kobo data ---- 
@@ -254,7 +253,11 @@ ui <- dashboardPage(
         label = "Time interval:", 
         language = "en",
         separator = " - ",
-        start = lubridate::ymd("2023-04-01"),
+        start = min(
+          min(lubridate::ymd(form_1$filter_date)),
+          min(lubridate::ymd(form_2$filter_date)),
+          min(lubridate::ymd(form_3$filter_date))
+        ),
         end = max(
           max(lubridate::ymd(form_1$filter_date)),
           max(lubridate::ymd(form_2$filter_date)),
@@ -288,7 +291,7 @@ ui <- dashboardPage(
         label = "Forecast date:", 
         value = paste0(today() %>% year() + 1, "-12-31"), 
         min = paste0(today() %>% year(), "-", today() %>% month() + 1, "-", today() %>% day()), 
-        max = "2026-12-31",
+        max = paste0(today() %>% year()+1, "-12-31"),
         format = "dd/mm/yyyy", 
         startview = "month", 
         weekstart = 0,
@@ -818,10 +821,10 @@ server <- function(input, output) {
       select(filter_date, unique_participants) %>% 
       
       rbind(
-        
-        data.frame("filter_date" = "2023-04-01",
+
+        data.frame("filter_date" = paste0(today() %>% year()-1, "-01-01"),
                    "unique_participants" = as.numeric(0) )
-      ) %>% 
+      ) %>%
       
       na.omit() %>% 
       tibble::as_tibble() %>% 
@@ -1476,13 +1479,13 @@ server <- function(input, output) {
       mutate(internal_implementing_partner =
                data.table::fifelse(
                  grepl("Partner B", expend_category_budgetline),
-                 "Partner_B",
+                 "Partner-B",
                  data.table::fifelse(
                    grepl("Partner A", expend_category_budgetline),
-                   "Partner_A",
+                   "Partner-A",
                    data.table::fifelse(
                      grepl("Partner C", expend_category_budgetline),
-                     "Partner_C",
+                     "Partner-C",
                      "Other",
                    )
                  )
@@ -1707,9 +1710,9 @@ server <- function(input, output) {
         fill = "Partner"
       ) +
 
-      scale_fill_manual("Partner", values = c("Partner_B" = "lightgreen", 
-                                              "Partner_A" = "lightblue", 
-                                              "Partner_C" = "pink")) +
+      scale_fill_manual("Partner", values = c("Partner-B" = "lightgreen", 
+                                              "Partner-A" = "lightblue", 
+                                              "Partner-C" = "pink")) +
       
       theme(axis.title.y = element_blank()) +
       
@@ -1795,13 +1798,13 @@ server <- function(input, output) {
       mutate(internal_implementing_partner =
                data.table::fifelse(
                  grepl("Partner B", expend_category_budgetline),
-                 "Partner_B",
+                 "Partner-B",
                  data.table::fifelse(
                    grepl("Partner A", expend_category_budgetline),
-                   "Partner_A",
+                   "Partner-A",
                    data.table::fifelse(
                      grepl("Partner C", expend_category_budgetline),
-                     "Partner_C",
+                     "Partner-C",
                      "Other",
                    )
                  )
