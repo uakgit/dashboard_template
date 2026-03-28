@@ -157,9 +157,9 @@ dbHeader <- dashboardHeader(
     tags$a(
       href="https://www.linkedin.com/in/usman-ahmed-87853289/", 
       target="_blank",
-      tags$img(height = "20px", 
+      tags$img(height = "30px", 
                alt="SNAP Logo", 
-               src="passbild.jpg")
+               src="passbild.jpeg")
     )
     
   ),
