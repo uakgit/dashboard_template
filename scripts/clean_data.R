@@ -412,6 +412,30 @@ form_1 <-
          
   )
 
+form_1 <- form_1 %>% 
+  mutate(internal_implementing_partner = gsub("_", "-", internal_implementing_partner))
+
+form_2 <- form_2 %>% 
+  mutate(internal_implementing_partner = gsub("_", "-", internal_implementing_partner))
+
+form_3 <- form_3 %>% 
+  mutate(internal_implementing_partner = gsub("_", "-", internal_implementing_partner))
+
+
+form_3 <- form_3 %>% 
+  mutate(filter_date = gsub("2024", "2023", filter_date))
+
+
+
+form_1 <- form_1 %>% 
+  mutate(filter_date = gsub("2023", paste0(today() %>% year()-1), filter_date))
+
+form_2 <- form_2 %>% 
+  mutate(filter_date = gsub("2023", paste0(today() %>% year()-1), filter_date))
+
+form_3 <- form_3 %>% 
+  mutate(filter_date = gsub("2023", paste0(today() %>% year()-1), filter_date))
+
 
 # Removes all intermediary dataframes ----
 
