@@ -425,7 +425,7 @@ form_3 <- form_3 %>%
 form_3 <- form_3 %>% 
   mutate(filter_date = gsub("2024", "2023", filter_date))
 
-
+# Updates the year, one year less than the current year.
 
 form_1 <- form_1 %>% 
   mutate(filter_date = gsub("2023", paste0(today() %>% year()-1), filter_date))
