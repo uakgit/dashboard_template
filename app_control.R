@@ -141,7 +141,7 @@ dbHeader <- dashboardHeader(
     href = 'https://www.linkedin.com/in/usman-ahmed-87853289/', 
     target = "_blank",
     # Display application name
-    'Project ABC',
+    'M&E Dashboard',
     '',
     # CSS 
     tags$link(
@@ -159,7 +159,7 @@ dbHeader <- dashboardHeader(
       target="_blank",
       tags$img(height = "30px", 
                alt="SNAP Logo", 
-               src="passbild.jpeg")
+               src="passbild.jpg")
     )
     
   ),
@@ -168,7 +168,7 @@ dbHeader <- dashboardHeader(
     headerText = "Messages",
     messageItem(
       from = "Usman Ahmed",
-      message = "Usman Ahmed is developing the dashboard"
+      message = "Usman Ahmed is developing this dashboard"
     )
   )
 )
@@ -250,7 +250,7 @@ ui <- dashboardPage(
       dateRangeInput(
         'dateRange',
         #label = NULL,
-        label = "Time interval:", 
+        label = "Select Data Collection Duration:", 
         language = "en",
         separator = " - ",
         start = min(
@@ -269,7 +269,7 @@ ui <- dashboardPage(
       
       tags$div(
         
-        actionButton("generate", "Generate report", icon = icon("file-alt"), 
+        actionButton("generate", "Generate Report", icon = icon("file-alt"), 
                      # This is the only button that shows up when the app is loaded
                      style = "color: #fff; background-color: #4d4d4d; border-color: #000000"
         ),
@@ -288,7 +288,7 @@ ui <- dashboardPage(
       # Forecast date input
       dateInput(
         "future_date", 
-        label = "Forecast date:", 
+        label = "Select Forecast Date:", 
         value = paste0(today() %>% year() + 1, "-12-31"), 
         min = paste0(today() %>% year(), "-", today() %>% month() + 1, "-", today() %>% day()), 
         max = paste0(today() %>% year()+1, "-12-31"),
@@ -345,18 +345,18 @@ ui <- dashboardPage(
                tabName = "tables",
                icon = icon("database"),
                
-               ## F1 Output -----
-               menuSubItem("F1 Output", 
+               ## Output -----
+               menuSubItem("Output", 
                            tabName = "form1_df", 
                            icon = icon("table")),
                
-               ## F2 Feedback -----
-               menuSubItem("F2 Feedback",
+               ## Feedback -----
+               menuSubItem("Feedback",
                            tabName = "form2_df",
                            icon = icon("table")),
                
-               ## F3 Finances -----
-               menuSubItem("F3 Finances",
+               ## Finances -----
+               menuSubItem("Finances",
                            tabName = "form3_df",
                            icon = icon("table"))
       )
@@ -378,35 +378,35 @@ ui <- dashboardPage(
                 ## Value Boxs  ----
                 shinydashboard::valueBox(
                   textOutput("f1_registrations_vbox"), 
-                  "Registrations (F1 Output)", 
+                  "Registrations (Output)", 
                   icon = icon("address-card"), 
                   color="green"
                 ),
                 
                 shinydashboard::valueBox(
                   textOutput("f2_registrations_vbox"), 
-                  "Registrations (F2 Feedback)", 
+                  "Registrations (Feedback)", 
                   icon = icon("address-card"), 
                   color="light-blue"
                 ),
                 
                 shinydashboard::valueBox(
                   textOutput("f3_registrations_vbox"), 
-                  "Registrations (F3 Financial)", 
+                  "Registrations (Financial)", 
                   icon = icon("address-card"), 
                   color="green"
                 ),
                 
                 shinydashboard::valueBox(
                   textOutput("f1_participants_vbox"),   
-                  "Unique beneficiaries (F1 Output)", 
+                  "Unique beneficiaries (Output)", 
                   icon = icon("people-group"), 
                   color="light-blue"
                 ),
                 
                 shinydashboard::valueBox(
                   textOutput("f1_women_vbox"),   
-                  "Women (F1 Output)", 
+                  "Women (Output)", 
                   icon = icon("female"), 
                   color="fuchsia"
                 ),
@@ -422,15 +422,16 @@ ui <- dashboardPage(
                   paste0("Updated on: ",
                          format(Sys.Date(), 
                                 format="%d/%m/%Y"),
-                         " / Most recent registration: ",
+                         "; Most recent registration: ",
                          max(
                            max(lubridate::ymd(form_1$filter_date)),
                            max(lubridate::ymd(form_2$filter_date)),
                            max(lubridate::ymd(form_3$filter_date))
                          ) %>%
                            as.Date() %>%
-                           format(.,"%d/%m/%Y"), 
-                         " Note: We estimate the number of unique beneficiaries by automatically calculating the median number of participants from reported activities and using it to replace high counts (above the median value) so as to mitigate multiple counting.")
+                           format(.,"%d/%m/%Y"),
+                         "; Data: Synthetic"
+                         )
                   
                 ), offset=0
                 )
@@ -438,7 +439,7 @@ ui <- dashboardPage(
               
               fluidRow(
                 column(12, h3("Indicators")),
-                column(12, h6("Source: The calculation of indicators are based on project implementation data. The target values refer logframe for overall project."))
+                column(12, h6("Source: The calculation of indicators are based on logframe for overall project."))
               ),
               
               ## Indicators UI output   ----
@@ -1066,7 +1067,7 @@ server <- function(input, output) {
     indSO3_value <- indicator_table$value[indicator_table$indicator == "indSO3_value"]
     
     min = 0 
-    max = 30
+    max = 130
     
     danger = c(min, floor(max/2))
     warning = c(floor(max/2)+1, max-1)
@@ -1125,7 +1126,7 @@ server <- function(input, output) {
     div(
       
       fluidRow(
-        box(column(12, h5("Indicator SO1: Number of people directly benefiting from EU-supported interventions that specifically aim to support civilian post-conflict peace building and/or conflict prevention: (target: 4140)")),
+        box(column(12, h5("Indicator 1: Number of people directly benefiting from project: (target: 4140)")),
             
             column(flexdashboard::gaugeOutput("kpi_SO1"),
                    width=12,
@@ -1135,7 +1136,7 @@ server <- function(input, output) {
             height=240
         ),
         
-        box(column(12, h5("Indicator SO2: Policy implementation and monitoring initiatives with CSO and CBOs supported by the action: (target: 16)")),
+        box(column(12, h5("Indicator 2: Policy implementation and monitoring initiatives: (target: 16)")),
             
             column(flexdashboard::gaugeOutput("kpi_SO2"),
                    width=12,
@@ -1146,7 +1147,7 @@ server <- function(input, output) {
       ),
       
       fluidRow(
-        box(column(12, h5("Indicator SO3: Number of community-based groups, CSOs, and CBOs supported by the action represented in State_A and State_B: (target: 30)")),
+        box(column(12, h5("Indicator 3: Number of community-based groups supported by the action: (target: 130)")),
             
             column(flexdashboard::gaugeOutput("kpi_SO3"),
                    width=12,
@@ -1156,7 +1157,7 @@ server <- function(input, output) {
             height=240
         ),
         
-        box(column(12, h5("Indicator SO4: % of participants in surveys with a positive opinion about community-based groups, CBOs, and CSOs’ managerial, organisational, and technical capacities and credibility in the target communities: (target: 80%)")),
+        box(column(12, h5("Indicator 4: % of participants in surveys with a positive opinion about community-based groups: (target: 80%)")),
             
             column(flexdashboard::gaugeOutput("kpi_SO4"),
                    width=12,
@@ -1184,7 +1185,7 @@ server <- function(input, output) {
     topbarplot(
       form_1$internal_state,
       max.obs = 10,
-      title = "State where this task is being implemented:") +
+      title = "States where this task is being implemented:") +
       theme(axis.title.x = element_blank())
     
   })
@@ -1203,7 +1204,7 @@ server <- function(input, output) {
     topbarplot(
       form_1$internal_lga,
       max.obs = 10,
-      title = "LGA (local-government area) where this task is being implemented:") +
+      title = "LGA - where this task is being implemented:") +
       theme(axis.title.x = element_blank())
     
   })
@@ -1263,7 +1264,7 @@ server <- function(input, output) {
     topbarplot(
       form_2$internal_state,
       max.obs = 10,
-      title = "State where this task is being implemented:") +
+      title = "States where this task is being implemented:") +
       theme(axis.title.x = element_blank())
     
   })
@@ -1282,7 +1283,7 @@ server <- function(input, output) {
     topbarplot(
       form_2$internal_lga,
       max.obs = 10,
-      title = "LGA (local-government area) where this task is being implemented:") +
+      title = "LGA - where this task is being implemented:") +
       theme(axis.title.x = element_blank())
     
   })
