@@ -13,12 +13,12 @@ params:
   value_boxes: NA
   plots: NA
   
-  set_title:  "Automated Report on Monitoring and Evaluation Report "
+  set_title:  "Automated Report on Monitoring and Evaluation"
   text_plots_en: TRUE
-title: "`r paste0(params$set_title, '; ', 'Implementing partner: ', paste0(if(length(params$partner) == 4){'All partners'}else{if(length(params$partner) == 3){paste0(params$partner[1],', ', params$partner[2],' & ', params$partner[3])}else{if(length(params$partner) == 2){paste0(params$partner[1],' & ', params$partner[2])}else{if(length(params$partner) == 1){paste0(params$partner[1])}else{'All partners'}}}}),'; ', 'Duration: from ', params$start_date %>% format('%d/%m/%y'), ' to ', params$end_date %>% format('%d/%m/%y'))`"
-subtitle: "Project ABC"
-author: "Supervisor: Usman Ahmed - uak2604@gmail.com"
-date: "`r format(Sys.time(), '%d/%m/%Y')`"
+title: "`r paste0(params$set_title, '; ', 'Duration: ', params$start_date %>% format('%d/%m/%y'), ' to ', params$end_date %>% format('%d/%m/%y'))`"
+subtitle: "M&E Report"
+author: "Author: Usman Ahmed - uak2604@gmail.com"
+date: "`r paste0('Date: ', format(Sys.time(), '%d/%m/%Y'))`"
 #output: html_document
 #toc: yes
 
@@ -36,17 +36,11 @@ output:
 
 ```{r image_logo, echo=FALSE, out.width = '20%'}
 
-knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/800px-Flag_of_Europe.svg.png")
+#knitr::include_graphics("")
 
 ```
 
 
-
-```{r license, echo=FALSE}
-
-
-
-```
 
 ```{r starttime, echo=FALSE}
 # Registers the time before running the code chunks below
@@ -63,7 +57,7 @@ partner <- params$partner
 
 # Dates 
 start_date  <-  params$start_date # Date of start of the report
-end_date <-  params$end_date # End date of the report (defaut: today). Please change if applicable (e.g. "2018-08-30")
+end_date <-  params$end_date # 
 
 form_1  <-  params$form_1
 form_2  <-  params$form_2
@@ -130,33 +124,26 @@ for(i in 1:nrow(indicator_table)){
 
 # Introduction
 
-This is an auto-generated report for the Monitoring, Evaluation and Learning (MEAL) dashboard of the project "Project ABC: Empowering Local Actors to promote peacebuilding, Human Rights, democracy, and religious tolerance, implemented by Partner A, Partner B, and Partner C. The M&E system is required by the  EU guidelines.
-
-It answers the need to develop and implement a monitoring and evaluation system and processes and strengthen the capacities of staff in technical, organisational, and operational implementation strategies based on EU INTPA rules and requirements.
-
-This MEAL system aims to fulfil the following objectives. 
-- Data Standardization: Ensuring unambiguous and consistent data collection, analysis, and reporting protocols to affirm the integrity and reliability of the project.
-- Capacity Enhancement: Elevating staff competency through the implementation of best practices and the streamlining of project management processes.
-- Sustaining Continuous Learning: Advocating for a culture of data-driven decision-making, which facilitates knowledge sharing and adaptive strategies.
+This is an auto-generated report for the Monitoring, Evaluation and Learning (MEAL) dashboard. The data used in this report is synthetic and do not represent real data of any project.
 
 
 This report is systematically organised into four sections, as configured on the MEAL online platform.
 
 1. General information of the project: value boxes.
 2. Project indicators result: deploying current status. Outcome indicators and Output indicators. 
-3. Online survey evaluation results, which are constantly updated until the end of the project. 
+3. Online survey evaluation results. 
 4. Financial register of logged expenditures.
 
-This report is generated using the **filtered data** based on selected partners, and the selected time interval in the dashboard sidebar panel. This report is generated for the time interval of `r params$start_date %>% format('%d/%m/%y')` and `r params$end_date %>% format('%d/%m/%y')` , taking into account that the last update of the MEAL system is the `r format(Sys.Date(), format="%d/%m/%y")`, and the most recent registration within selected time interval is made on `r latest_submission %>% format('%d/%m/%y')`. 
+This report is generated for the time interval of `r params$start_date %>% format('%d/%m/%y')` and `r params$end_date %>% format('%d/%m/%y')` , taking into account that the last update of the MEAL system is the `r format(Sys.Date(), format="%d/%m/%y")`, and the most recent registration within selected time interval is made on `r latest_submission %>% format('%d/%m/%y')`. 
 
 # About the project:
 
 Following are the key values of the MEAL system, comprising number of registrations, beneficiaries and women participants including forecast of beneficiaries at selected future date.
 
-- Registrations (F1 Output): `r value_boxes[["f1_registrations_vbox"]]`
-- Registrations (F2 Feedback): `r value_boxes[["f2_registrations_vbox"]]`
-- Registrations (F3 Financial): `r value_boxes[["f3_registrations_vbox"]]`
-- Unique beneficiaries (F1 Output): `r value_boxes[["f1_participants_vbox"]]`
+- Registrations (Output): `r value_boxes[["f1_registrations_vbox"]]`
+- Registrations (Feedback): `r value_boxes[["f2_registrations_vbox"]]`
+- Registrations (Financial): `r value_boxes[["f3_registrations_vbox"]]`
+- Unique beneficiaries (Output): `r value_boxes[["f1_participants_vbox"]]`
 - Women (F1 Output): `r value_boxes[["f1_women_vbox"]]`
 - `r paste0("Forecast of beneficiaries on ", lubridate::ymd(future_date) %>% format("%d/%m/%y", big.mark = ""))`: `r value_boxes[["value_forecast_f1_benef"]]`
 
@@ -244,7 +231,7 @@ ggplot(df, aes(x, y, height = h, width = w, label = info)) +
 
 <br>
 
-## Outputs from activities
+## Outputs from Activities
 
 The interviews are taken in the state of `r toplabel("internal_state", form_1, lowercase = F,, form_path = NA, reorder_label = F)`. The LGS can be ranked as follows `r toplabel("internal_lga", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. Project result to which the task being reported is related to `r toplabel("internal_result", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. The type of participants / public in the assessment are `r toplabel("internal_participant", form_1, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`.
 
@@ -299,9 +286,7 @@ multibarplot(
 ```
 
 
-## Feedback from beneficiaries
-
-The feedbacks are taken in the state of `r toplabel("internal_state", form_2, lowercase = F,, form_path = NA, reorder_label = F)`. The LGS can be ranked as follows `r toplabel("internal_lga", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. Project result to which the task being reported is related to `r toplabel("internal_result", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`. The type of participants / public in the assessment are `r toplabel("internal_participant", form_2, lowercase = F,, form_path = NA, reorder_label = F, slice = 1:15)`.
+## Feedback from Beneficiaries
 
 <br>
 
@@ -458,7 +443,6 @@ sjPlot::plot_likert(form_2_vgood,
 
 ## Expenditures
 
-For the question "Is this an activity-specific expenditure?" the partners answered `r toplabel("expend_activity_specific", form_3, lowercase = F,, form_path = NA, reorder_label = F)`. The category(ies) to which the expenses belong to are `r toplabel("expend_category", form_3, lowercase = F,, form_path = NA, reorder_label = F)`. The method of payments are `r toplabel("expend_payment", form_3, lowercase = F,, form_path = NA, reorder_label = F)`.
 
 <br>
 
@@ -521,62 +505,6 @@ plots[["f3_budget"]] %>% print()
 
 ```
 
-
-# Annex
-## Indicators from the logical framework
-
-The calculation of indicators includes data from 
-
-- Form 1 - Output form for logging activities and outputs continuously, 
-- Form 2 - Feedback form to track quality and beneficiary suggestions continuously
-- Form 3 - Financial register for logging expenditures continuously
-
-We have calculated the indicators using the **filtered data** based on selected partners, and the selected time interval in the dashboard sidebar panel. The target values represent overall project.
-
-### Specific Objective: 
-
-Strengthened community-based groups, CSOs, CBOs, religious leaders, faith-based organisations, and government institutions promote peace, religious tolerance, respect for human rights, and improved livelihoods, with a focus on women and youths in 12 communities in six local government areas of State A and State B.
-
-**Indicator SO1 - Number of people directly benefiting from EU-supported interventions that specifically aim to support civilian post-conflict peace building and/or conflict prevention.**
-
-- Source as from the approved proposal: Activity plans, activity reports, publications, M&E reports, and final
-evaluation.
-
-- Target value as from approved proposal (Overall programme): 4140 people
-
-- Indicator value as from approved proposal: 0 (start)
-
-- Indicator value as from the updated assessment: `r indSO1_value` people
-
-
-**Indicator SO2 - Policy implementation and monitoring initiatives with CSO and CBOs supported by the action**
-
-- Source as from the approved proposal: Activity plans, activity reports, publications, M&E reports, and final evaluation.
-
-- Target value as from approved proposal (Overall programme): 16 people
-
-- Indicator value as from approved proposal: 0 (start)
-
-- Indicator value as from the updated assessment: `r indSO2_value`
-
-
-
-**Indicator SO3 - Number of community-based groups, CSOs, and CBOs supported by the action represented in State A and State B**
-
-- Source as from the approved proposal: Baseline assessment report, membership documents, M&E reports, and final evaluation.
-
-- Target value as from approved proposal (Overall programme): 30
-
-- Indicator value as from the updated assessment: `r indSO3_value`
-
-
-**Indicator SO4 - % of participants in surveys with a positive opinion about community-based groups, CBOs, and CSOs’ managerial, organisational, and technical capacities and credibility in the target communities.**
-
-- Source as from the approved proposal: Baseline assessment report, M&E surveys, and final evaluation.
-
-- Target value as from approved proposal (Overall programme): 80%
-
-- Indicator value as from the updated assessment: `r indSO4_value`%
 
 
 
