@@ -50,3 +50,7 @@ vignettes/*.pdf
 # raw_data/
 
 rsconnect/
+
+renv/
+
+cronjob-*/
