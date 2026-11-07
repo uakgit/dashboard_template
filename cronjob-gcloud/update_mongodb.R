@@ -223,22 +223,22 @@ mongo_form_2_feedback$disconnect()
 mongo_form_3_financial$disconnect()
 
 
-if (result$nInserted > 0) {
-  print(
-    paste("Data has been successfully inserted into",
-          df_name, "collection. UUID:", uuid)
-  )
-} else {
-  print(
-    paste("An error occurred while inserting data into", 
-          df_name, "collection. UUID:", uuid)
-  )
-} else {
-  print(
-    paste("UUID already exists in",
-          df_name, "collection. No insertion performed. UUID:", uuid)
-  )
-}
+# if (result$nInserted > 0) {
+#   print(
+#     paste("Data has been successfully inserted into",
+#           df_name, "collection. UUID:", uuid)
+#   )
+# } else {
+#   print(
+#     paste("An error occurred while inserting data into", 
+#           df_name, "collection. UUID:", uuid)
+#   )
+# } else {
+#   print(
+#     paste("UUID already exists in",
+#           df_name, "collection. No insertion performed. UUID:", uuid)
+#   )
+# }
 
 # Clean up environment and memory
 rm(df, i, form_title, auth)
